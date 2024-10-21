@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ffffff;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background video */
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures video fits without being cropped */
+  background-color: black; /* Prevents white bars from showing */
+  z-index: -1;
+}
+
+/* Autonomys logo with animation */
+.logo {
+  position: absolute;
+  top: 35%; /* Slightly moved up */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: auto;
+  animation: moveLogo 3s ease-in-out infinite;
+}
+
+@keyframes moveLogo {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px); /* Subtle up and down motion */
+  }
+}
+
+/* Rocket Path at the bottom */
+.rocket-path {
+  position: absolute;
+  bottom: 70px; /* Adjusted to make room for the Reset button */
+  width: 80%;    /* Increased size */
+  height: 60px;  /* Slightly larger height */
+  border: 2px solid #ffffff;
+  border-radius: 30px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Rocket */
+.rocket {
+  position: absolute;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  background: url('rocket.png') no-repeat center;
+  background-size: contain;
+  transition: left 1s ease-in-out;
+}
+
+/* Display for current PiB aligned with the rocket path */
+.pib-display {
+  font-size: 1.5em;
+  position: absolute;
+  right: 10%; /* Positioned at the end of the bar */
+  bottom: 90px; /* Aligned with the bar, adjusted to make room for the button */
+  color: #ffffff;
+  text-shadow: 0 0 10px #000000;
+}
+
+/* Button styling */
+button {
+  position: absolute;
+  bottom: 20px; /* Positioned under the PiB display */
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #dddddd;
+}
+
