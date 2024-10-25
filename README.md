@@ -1,6 +1,6 @@
-# Space Race Plot-O-Meter
+# Space Race Plot-O-Meter by bingbang
 
-Un site web dynamique qui suit en temps réel l'espace de stockage promis dans le cadre du concours Autonomys Network BIG BANG.
+Un site web dynamique dans le cadre du concours Autonomys Network BIG BANG.
 
 ## Fonctionnalités
 
@@ -10,4 +10,4 @@ Un site web dynamique qui suit en temps réel l'espace de stockage promis dans l
 
 ## Déploiement
 
-Déployé sur [Vercel](https://vercel.com).
+Déployé sur Vercel
