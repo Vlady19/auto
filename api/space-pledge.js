@@ -1,15 +1,16 @@
 import { spacePledge } from '@autonomys/auto-consensus';
 import { activate } from '@autonomys/auto-utils';
 
-// Activate the API and make sure it's ready to be used
+const MAINNET_WS_URL = 'wss://rpc.mainnet.subspace.foundation/ws';
 let api;
 
+// Fonction asynchrone pour activer l'API avec l'URL du Mainnet
 (async () => {
   try {
-    api = await activate();
-    console.log('API activated successfully.');
+    api = await activate(MAINNET_WS_URL);  // Activation avec l'URL Mainnet
+    console.log('API activated successfully on Mainnet.');
   } catch (error) {
-    console.error('Error activating API:', error);
+    console.error('Error activating API on Mainnet:', error);
   }
 })();
 
@@ -19,13 +20,13 @@ export default async function handler(req, res) {
       return res.status(503).json({ error: 'API not ready yet' });
     }
 
-    // Fetch the spacePledged value from the blockchain
+    // Récupère la valeur `spacePledged` depuis la blockchain Mainnet
     const spacePledged = await spacePledge(api);
 
-    // Send the spacePledged value as a string in the response
+    // Envoie la valeur de `spacePledged` sous forme de chaîne dans la réponse
     res.status(200).json({ spacePledged: spacePledged.toString() });
   } catch (error) {
-    console.error('Error fetching spacePledged:', error);
+    console.error('Error fetching spacePledged on Mainnet:', error);
     res.status(500).json({ error: 'Failed to fetch space pledged' });
   }
 }
