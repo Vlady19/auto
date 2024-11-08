@@ -27,6 +27,9 @@ app.get('/api/getBalance', async (req, res) => {
 
     // Récupération du solde
     const accountBalance = await balance(api, address);
+    
+    // Affichage du solde brut pour diagnostic
+    console.log(`Solde brut pour ${address}:`, accountBalance.free.toString());
 
     await api.disconnect();
 
