@@ -14,7 +14,8 @@ async function fetchBalance() {
   }
 
   try {
-    const response = await fetch(`/api/balance?address=${walletAddress}`);
+    // Appelle la fonction serverless sur Vercel au lieu de l'API directe
+    const response = await fetch(`/api/getBalance?address=${walletAddress}`);
     const data = await response.json();
 
     if (data.balance) {
