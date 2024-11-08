@@ -18,16 +18,16 @@ app.get('/api/balance', async (req, res) => {
   }
 
   try {
-    // Activer l'API avec le bon réseau (mettez à jour networkId si nécessaire)
+    // Activer l'API avec le bon réseau
     const api = await activate({ networkId: 'gemini-3h' });
 
     // Récupérer le solde du compte
     const accountBalance = await balance(api, address);
 
-    // Déconnecter une fois terminé pour libérer les ressources
+    // Déconnecter l'API pour libérer les ressources
     await api.disconnect();
 
-    // Envoyer le solde sous format JSON
+    // Envoyer le solde au format JSON
     res.json({ balance: accountBalance.free.toString() });
   } catch (error) {
     console.error('Erreur lors de la récupération du solde:', error);
