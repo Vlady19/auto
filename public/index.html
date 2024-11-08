@@ -27,9 +27,11 @@
   <!-- Reset Button below the PiB display -->
   <button onclick="resetRocket()">Reset</button>
 
-  <!-- Nouveau bouton pour accéder à wallet.html -->
-  <div class="wallet-link">
-    <a href="/wallet.html" class="wallet-button">Vérifier mon Solde</a>
+  <!-- Wallet input and balance display -->
+  <div class="wallet-section">
+    <input type="text" id="walletAddress" placeholder="Entrez votre adresse de portefeuille">
+    <button onclick="fetchBalance()">Vérifier le solde</button>
+    <p id="balanceDisplay">Solde: --</p>
   </div>
 
   <script src="script.js"></script>
