@@ -14,7 +14,7 @@ app.get('/api/balance', async (req, res) => {
   const { address } = req.query;
 
   if (!address) {
-    return res.status(400).json({ error: 'Adresse manquante.' });
+    return res.status(400).json({ error: 'Missing address.' });
   }
 
   try {
@@ -28,12 +28,12 @@ app.get('/api/balance', async (req, res) => {
 
     res.json({ balance: accountBalance.free.toString() });
   } catch (error) {
-    console.error('Erreur lors de la récupération du solde:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération du solde.' });
+    console.error('Error retrieving balance:', error);
+    res.status(500).json({ error: 'Error retrieving balance.' });
   }
 });
 
 // Démarrer le serveur
 app.listen(port, () => {
-  console.log(`Serveur API en écoute sur http://localhost:${port}`);
+  console.log(`Listening API server on http://localhost:${port}`);
 });
