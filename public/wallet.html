@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vérifiez votre solde</title>
+  <script src="https://unpkg.com/@polkadot/api@7.1.1/polkadot.min.js"></script>
+  <script src="https://unpkg.com/@polkadot/extension-dapp@0.43.1/dist/polkadot-extension-dapp.min.js"></script>
+</head>
+<body>
+  <h1>Vérification du Solde</h1>
+  
+  <!-- Bouton pour se connecter au portefeuille -->
+  <button id="connect-wallet">Connecter le portefeuille Polkadot/Subwallet</button>
+  
+  <!-- Champ pour entrer une adresse manuellement -->
+  <input type="text" id="address-input" placeholder="Entrez une adresse">
+  <button id="check-balance">Vérifier le solde</button>
+  
+  <!-- Affichage du solde -->
+  <p id="balance-display"></p>
+
+  <script>
+    // Fonction pour connecter le portefeuille et récupérer l'adresse
+    async function connectWallet() {
+      const allInjected = await window.polkadotDapp.web3Enable('VotreApp');
+      const accounts = await window.polkadotDapp.web3Accounts();
+      if (accounts.length > 0) {
+        document.getElementById('address-input').value = accounts[0].address;
+        checkBalance(accounts[0].address);
+      } else {
+        alert("Aucun compte détecté dans l'extension Polkadot ou Subwallet.");
+      }
+    }
+
+    // Fonction pour vérifier le solde d'une adresse
+    async function checkBalance(address) {
+      try {
+        const response = await fetch(`/api/balance?address=${address}`);
+        const data = await response.json();
+
+        if (data.balance) {
+          document.getElementById('balance-display').textContent = `Solde: ${data.balance}`;
+        } else {
+          document.getElementById('balance-display').textContent = 'Erreur de récupération du solde';
+        }
+      } catch (error) {
+        console.error('Erreur lors de la vérification du solde:', error);
+      }
+    }
+
+    document.getElementById('connect-wallet').addEventListener('click', connectWallet);
+    document.getElementById('check-balance').addEventListener('click', () => {
+      const address = document.getElementById('address-input').value;
+      if (address) {
+        checkBalance(address);
+      } else {
+        alert('Veuillez entrer une adresse.');
+      }
+    });
+  </script>
+</body>
+</html>
