@@ -28,7 +28,7 @@
         document.getElementById('address-input').value = accounts[0].address;
         checkBalance(accounts[0].address);
       } else {
-        alert("Aucun compte détecté dans l'extension Polkadot ou Subwallet.");
+        alert("No account detect on extension Polkadot or Subwallet.");
       }
     }
 
@@ -41,10 +41,10 @@
         if (data.balance) {
           document.getElementById('balance-display').textContent = `Solde: ${data.balance}`;
         } else {
-          document.getElementById('balance-display').textContent = 'Erreur de récupération du solde';
+          document.getElementById('balance-display').textContent = 'Balance retrieval error';
         }
       } catch (error) {
-        console.error('Erreur lors de la vérification du solde:', error);
+        console.error('Balance retrieval error:', error);
       }
     }
 
@@ -54,7 +54,7 @@
       if (address) {
         checkBalance(address);
       } else {
-        alert('Veuillez entrer une adresse.');
+        alert('Please enter an address.');
       }
     });
   </script>
