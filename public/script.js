@@ -19,7 +19,7 @@ async function fetchBalance() {
     const data = await response.json();
 
     if (data.balance) {
-      document.getElementById('balanceDisplay').textContent = 'Solde brut: ${data.balance} unités';
+      document.getElementById('balanceDisplay').textContent = `Solde brut: ${data.balance} unités`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
