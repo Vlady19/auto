@@ -10,35 +10,37 @@ app.use(cors());
 app.use(express.static('public'));
 
 // Route pour récupérer le solde d'un portefeuille
-app.get('/api/balance', async (req, res) => {
+app.get('/api/getBalance', async (req, res) => {
   const { address } = req.query;
-  console.log('Received request to check balance for address:', address);
 
   if (!address) {
-    console.log('Missing address in request');
     return res.status(400).json({ error: 'Missing address.' });
   }
 
   try {
-    console.log("Connecting to the mainnet...");
+    // Connexion au mainnet
     const api = await activate({ provider: 'wss://rpc.mainnet.subspace.foundation/ws' });
-    console.log("Connected to the mainnet.");
 
+    // Récupération des décimales pour le réseau
+    const decimals = api.registry.chainDecimals[0];
+    console.log("Décimales du réseau :", decimals);
+
+    // Récupération du solde
     const accountBalance = await balance(api, address);
-    console.log("Balance retrieved:", accountBalance);
 
     await api.disconnect();
-    console.log("Disconnected from the mainnet.");
 
-    // Conversion en AI3 (remplacez par une unité si besoin)
-    const freeBalance = accountBalance.free ? accountBalance.free.toString() : 'N/A';
-    res.json({ balance: freeBalance });
+    // Convertir le solde brut en AI3
+    const freeBalanceAI3 = (accountBalance.free / Math.pow(10, decimals)).toFixed(4);
+
+    res.json({ balance: freeBalanceAI3 });
   } catch (error) {
     console.error('Error retrieving balance:', error);
     res.status(500).json({ error: 'Error retrieving balance.' });
   }
 });
 
+// Démarrer le serveur
 app.listen(port, () => {
   console.log(`Listening API server on http://localhost:${port}`);
 });
