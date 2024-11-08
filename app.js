@@ -1,33 +1,15 @@
 import express from 'express';
-import { ApiPromise, WsProvider } from '@polkadot/api';
 import cors from 'cors';
+import { activate } from '@autonomys/auto-utils';
+import { balance } from '@autonomys/auto-consensus';
 
 const app = express();
 const port = 3000;
 
-app.use(cors()); // Activer CORS pour éviter les blocages du navigateur
-app.use(express.static('public')); // Assurer que les fichiers statiques dans 'public' sont accessibles
+app.use(cors());
+app.use(express.static('public'));
 
-// Route pour récupérer le dernier bloc et l'espace promis
-app.get('/api/space-pledge', async (req, res) => {
-  try {
-    const wsProvider = new WsProvider('wss://rpc-0.gemini-3h.subspace.network/ws');
-    const api = await ApiPromise.create({ provider: wsProvider });
-
-    const lastBlock = await api.rpc.chain.getBlock();
-    console.log('Dernier bloc:', lastBlock.block.header.number.toString());
-
-    const spacePledged = await api.query.someModule.someMethod(); // Remplacez par l'API correcte
-    const pibValue = spacePledged.toString(); // Conversion en PiB si nécessaire
-
-    res.json({ spacePledged: pibValue, blockNumber: lastBlock.block.header.number.toString() });
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération des données.' });
-  }
-});
-
-// Nouvelle route pour récupérer le solde d'un portefeuille
+// Route pour récupérer le solde d'un portefeuille
 app.get('/api/balance', async (req, res) => {
   const { address } = req.query;
 
@@ -36,13 +18,17 @@ app.get('/api/balance', async (req, res) => {
   }
 
   try {
-    const wsProvider = new WsProvider('wss://rpc.mainnet.subspace.foundation/ws'); // URL du Mainnet
-    const api = await ApiPromise.create({ provider: wsProvider });
+    // Activer l'API avec le bon réseau (mettez à jour networkId si nécessaire)
+    const api = await activate({ networkId: 'gemini-3h' });
 
     // Récupérer le solde du compte
-    const { data: { free: balance } } = await api.query.system.account(address);
+    const accountBalance = await balance(api, address);
 
-    res.json({ balance: balance.toHuman() });
+    // Déconnecter une fois terminé pour libérer les ressources
+    await api.disconnect();
+
+    // Envoyer le solde sous format JSON
+    res.json({ balance: accountBalance.free.toString() });
   } catch (error) {
     console.error('Erreur lors de la récupération du solde:', error);
     res.status(500).json({ error: 'Erreur lors de la récupération du solde.' });
