@@ -1,7 +1,38 @@
-// Function to fetch the spacePledged value
+// Fonction pour convertir le solde en AI3
+function convertToAI3(balance) {
+  const conversionFactor = 1.1163e17; // Facteur de conversion trouvé
+  return (balance / conversionFactor).toFixed(4); // Garde 4 décimales
+}
+
+// Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
+async function fetchBalance() {
+  const walletAddress = document.getElementById('walletAddress').value;
+
+  if (!walletAddress) {
+    alert('Veuillez entrer une adresse de portefeuille.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/balance?address=${walletAddress}`);
+    const data = await response.json();
+
+    if (data.balance) {
+      const balanceInAI3 = convertToAI3(Number(data.balance)); // Convertit le solde brut en AI3
+      document.getElementById('balanceDisplay').textContent = `Solde: ${balanceInAI3} AI3`;
+    } else {
+      document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération du solde:', error);
+    document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+  }
+}
+
+// Fonction existante pour l'espace utilisé
 async function fetchSpacePledged() {
   try {
-    const response = await fetch('/api/space-pledge');  // Utilise le chemin de l'API serverless
+    const response = await fetch('/api/space-pledge');
     const data = await response.json();
     const bytes = BigInt(data.spacePledged);
     const pib = bytesToPiB(bytes);
@@ -44,27 +75,3 @@ setInterval(fetchSpacePledged, 1000);
 
 // Initial fetch
 fetchSpacePledged();
-
-// Fonction pour vérifier le solde en utilisant l'adresse du portefeuille NEEEEEEEEEEEEEEW
-async function fetchBalance() {
-  const walletAddress = document.getElementById('walletAddress').value;
-
-  if (!walletAddress) {
-    alert('Veuillez entrer une adresse de portefeuille.');
-    return;
-  }
-
-  try {
-    const response = await fetch(`/api/balance?address=${walletAddress}`);
-    const data = await response.json();
-
-    if (data.balance) {
-      document.getElementById('balanceDisplay').textContent = `Solde: ${data.balance}`;
-    } else {
-      document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
-    }
-  } catch (error) {
-    console.error('Erreur lors de la récupération du solde:', error);
-    document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
-  }
-}
