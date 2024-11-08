@@ -137,3 +137,15 @@ button:hover {
   font-size: 1.2em;
   text-shadow: 0 0 10px #000000;
 }
+
+.wallet-section {
+  display: flex;
+  align-items: center; /* Aligne le bouton et le champ de saisie sur la même ligne */
+  gap: 10px; /* Espace entre le champ de saisie et le bouton */
+  margin-top: 20px; /* Ajuste l’espace en haut */
+}
+
+#balanceDisplay {
+  font-weight: bold; /* Met en gras le texte du solde */
+  font-size: 1.2em; /* Augmente légèrement la taille */
+}
