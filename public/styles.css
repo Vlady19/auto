@@ -101,27 +101,39 @@ button:hover {
   background-color: #dddddd;
 }
 
-/* Container for the wallet link */
-.wallet-link {
+/* Wallet section styling */
+.wallet-section {
   position: absolute;
-  bottom: 80px; /* Place it above the Reset button */
+  bottom: 100px; /* Position above the Reset button */
   text-align: center;
   width: 100%;
+  color: #ffffff;
 }
 
-/* Styling for the wallet button */
-.wallet-button {
+.wallet-section input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 10px;
+}
+
+.wallet-section button {
   padding: 10px 20px;
   font-size: 1em;
-  background-color: #4CAF50; /* Green color for visibility */
+  background-color: #4CAF50;
   color: #ffffff;
   border: none;
-  border-radius: 5px;
-  text-decoration: none;
   cursor: pointer;
+  border-radius: 5px;
   transition: background-color 0.3s;
 }
 
-.wallet-button:hover {
-  background-color: #45a049; /* Slightly darker green on hover */
+.wallet-section button:hover {
+  background-color: #45a049;
+}
+
+#balanceDisplay {
+  margin-top: 10px;
+  font-size: 1.2em;
+  text-shadow: 0 0 10px #000000;
 }
