@@ -1,6 +1,6 @@
 // Fonction pour convertir le solde en AI3
 function convertToAI3(balance) {
-  const conversionFactor = 1e9; // Facteur de conversion trouvé
+  const conversionFactor = 1.1163e17; // Facteur de conversion trouvé
   return (balance / conversionFactor).toFixed(4); // Garde 4 décimales
 }
 
@@ -15,11 +15,12 @@ async function fetchBalance() {
 
   try {
     // Appelle la fonction serverless sur Vercel au lieu de l'API directe
-    const response = await fetch(`/api/getBalance?address=${walletAddress}`);
+    const response = await fetch(/api/getBalance?address=${walletAddress});
     const data = await response.json();
 
     if (data.balance) {
-      document.getElementById('balanceDisplay').textContent = `Solde brut: ${data.balance} unités`;
+      const balanceInAI3 = convertToAI3(Number(data.balance)); // Convertit le solde brut en AI3
+      document.getElementById('balanceDisplay').textContent = Solde: ${balanceInAI3} AI3;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
@@ -58,7 +59,7 @@ function updateRocketPosition(pib) {
   rocket.style.left = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.textContent = `${pib} PiB out of 20 PiB`;
+  pibValue.textContent = ${pib} PiB out of 20 PiB;
 }
 
 // Reset the rocket position
