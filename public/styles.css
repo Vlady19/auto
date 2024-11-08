@@ -101,3 +101,27 @@ button:hover {
   background-color: #dddddd;
 }
 
+/* Container for the wallet link */
+.wallet-link {
+  position: absolute;
+  bottom: 80px; /* Place it above the Reset button */
+  text-align: center;
+  width: 100%;
+}
+
+/* Styling for the wallet button */
+.wallet-button {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #4CAF50; /* Green color for visibility */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.wallet-button:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+}
