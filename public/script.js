@@ -1,6 +1,6 @@
 // Fonction pour convertir le solde en AI3
 function convertToAI3(balance) {
-  const conversionFactor = 1e18; // Facteur de conversion trouvé
+  const conversionFactor = 1e15; // Facteur de conversion trouvé
   return (balance / conversionFactor).toFixed(4); // Garde 4 décimales
 }
 
