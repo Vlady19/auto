@@ -1,14 +1,12 @@
 import express from 'express';
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import cors from 'cors'; // Ajoutez cette ligne pour éviter les problèmes de CORS
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
 
 app.use(cors()); // Activer CORS pour éviter les blocages du navigateur
-
-// Serveur de fichiers statiques pour l'interface web
-app.use(express.static('public'));
+app.use(express.static('public')); // Assurer que les fichiers statiques dans 'public' sont accessibles
 
 // Route pour récupérer le dernier bloc et l'espace promis
 app.get('/api/space-pledge', async (req, res) => {
