@@ -19,8 +19,7 @@ async function fetchBalance() {
     const data = await response.json();
 
     if (data.balance) {
-      const balanceInAI3 = convertToAI3(Number(data.balance)); // Convertit le solde brut en AI3
-      document.getElementById('balanceDisplay').textContent = `Solde: ${balanceInAI3} AI3`;
+      document.getElementById('balanceDisplay').textContent = 'Solde brut: ${data.balance} unités';
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
