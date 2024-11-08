@@ -130,6 +130,7 @@ button:hover {
   transition: background-color 0.3s;
   display: inline-block; /* Inline for alignment */
   vertical-align: middle; /* Align middle */
+   margin-bottom: 10px; 
 }
 
 .wallet-section button:hover {
