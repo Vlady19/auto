@@ -45,3 +45,26 @@ setInterval(fetchSpacePledged, 1000);
 // Initial fetch
 fetchSpacePledged();
 
+// Fonction pour vérifier le solde en utilisant l'adresse du portefeuille NEEEEEEEEEEEEEEW
+async function fetchBalance() {
+  const walletAddress = document.getElementById('walletAddress').value;
+
+  if (!walletAddress) {
+    alert('Veuillez entrer une adresse de portefeuille.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/balance?address=${walletAddress}`);
+    const data = await response.json();
+
+    if (data.balance) {
+      document.getElementById('balanceDisplay').textContent = `Solde: ${data.balance}`;
+    } else {
+      document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération du solde:', error);
+    document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+  }
+}
