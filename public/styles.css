@@ -104,30 +104,25 @@ button:hover {
 /* Wallet section styling */
 .wallet-section {
   position: absolute;
-  bottom: 140px; /* Adjust this if necessary */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  color: #ffffff;
+  bottom: 140px; /* Adjust this value if necessary */
+  text-align: center;
   width: 100%;
 }
 
-.wallet-section input {
+.wallet-section input, .wallet-section button {
   padding: 10px;
   border-radius: 5px;
   border: none;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
 }
 
 .wallet-section button {
-  padding: 10px 20px;
-  font-size: 1em;
   background-color: #4CAF50;
   color: #ffffff;
-  border: none;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  font-size: 1em;
 }
 
 .wallet-section button:hover {
@@ -136,7 +131,7 @@ button:hover {
 
 /* Balance display styling */
 #balanceDisplay {
-  margin-top: 10px;
+  margin-top: 20px;
   font-size: 1.2em;
   font-weight: bold;
   text-shadow: 0 0 10px #000000;
