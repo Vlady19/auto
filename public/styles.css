@@ -154,3 +154,13 @@ button:hover {
   font-weight: bold;
   text-shadow: 0 0 10px #000000;
 }
+/* Block Height Display aligned to the left */
+.block-height-display {
+  font-size: 1.5em;
+  position: absolute;
+  left: 10%;
+  bottom: 90px;
+  color: #ffffff;
+  text-shadow: 0 0 10px #000000;
+}
+
