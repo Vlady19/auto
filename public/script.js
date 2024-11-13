@@ -35,6 +35,8 @@ async function fetchSpacePledged() {
   try {
     const response = await fetch('/api/space-pledge');
     const data = await response.json();
+    console.log('Données reçues pour Space Pledged:', data); // Affiche la réponse complète pour vérification
+
     const bytes = BigInt(data.spacePledged);
     const pib = bytesToPiB(bytes);
     updateRocketPosition(pib);
@@ -84,8 +86,9 @@ function fetchBlockHeight() {
 
   socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
+    console.log('Données reçues via WebSocket:', data); // Affiche toutes les données pour vérification
 
-    // Affiche Block Height si disponible
+    // Vérifie si la structure de l'objet data contient les valeurs recherchées
     if (data.blockHeight) {
       document.getElementById('block-height').textContent = `Block Height: ${data.blockHeight}`;
     }
