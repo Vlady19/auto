@@ -1,7 +1,7 @@
 // Fonction pour convertir le solde en AI3
 function convertToAI3(balance) {
-  const conversionFactor = 1.1163e17; // Essai avec un facteur de 1e18
-  return (balance / conversionFactor).toFixed(4); // Garde 4 décimales
+  const conversionFactor = 1.1163e17;
+  return (balance / conversionFactor).toFixed(4);
 }
 
 // Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
