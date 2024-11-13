@@ -7,7 +7,7 @@
     "start": "vercel dev"
   },
   "dependencies": {
-    "@autonomys/auto-consensus": "^0.6.8",
-    "@autonomys/auto-utils": "^0.6.8"
+    "@autonomys/auto-consensus": "^1.0.5",
+    "@autonomys/auto-utils": "^1.0.5"
   }
 }
