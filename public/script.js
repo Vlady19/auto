@@ -38,6 +38,9 @@ async function fetchSpacePledged() {
     const bytes = BigInt(data.spacePledged);
     const pib = bytesToPiB(bytes);
     updateRocketPosition(pib);
+
+    // Affiche la valeur Space Pledged
+    document.getElementById('space-pledged').textContent = `Space Pledged: ${pib} PiB`;
   } catch (error) {
     console.error('Error fetching spacePledged:', error);
   }
@@ -71,8 +74,35 @@ function resetRocket() {
   pibValue.textContent = '0 PiB out of 20 PiB';
 }
 
-// Fetch and update every second
+// Fonction pour récupérer le Block Height via WebSocket
+function fetchBlockHeight() {
+  const socket = new WebSocket('wss://rpc.mainnet.subspace.foundation/ws');
+
+  socket.onopen = function () {
+    console.log('Connexion WebSocket établie pour Block Height');
+  };
+
+  socket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+
+    // Affiche Block Height si disponible
+    if (data.blockHeight) {
+      document.getElementById('block-height').textContent = `Block Height: ${data.blockHeight}`;
+    }
+  };
+
+  socket.onerror = function (error) {
+    console.error('Erreur WebSocket:', error);
+  };
+
+  socket.onclose = function () {
+    console.log('Connexion WebSocket fermée');
+  };
+}
+
+// Fetch and update Space Pledged every second
 setInterval(fetchSpacePledged, 1000);
 
-// Initial fetch
+// Initial fetches
 fetchSpacePledged();
+fetchBlockHeight();
