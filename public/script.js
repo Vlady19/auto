@@ -35,16 +35,25 @@ async function fetchSpacePledged() {
   try {
     const response = await fetch('/api/space-pledge');
     const data = await response.json();
-    console.log('Données reçues pour Space Pledged:', data); // Affiche la réponse complète pour vérification
+    
+    // Log de la réponse complète pour vérifier la structure
+    console.log('Données complètes reçues pour Space Pledged:', data);
+    
+    // Vérifie si 'spacePledged' est présent dans les données
+    if (data.spacePledged) {
+      const bytes = BigInt(data.spacePledged);
+      const pib = bytesToPiB(bytes);
+      updateRocketPosition(pib);
 
-    const bytes = BigInt(data.spacePledged);
-    const pib = bytesToPiB(bytes);
-    updateRocketPosition(pib);
-
-    // Affiche la valeur Space Pledged
-    document.getElementById('space-pledged').textContent = `Space Pledged: ${pib} PiB`;
+      // Affiche la valeur Space Pledged sur la page
+      document.getElementById('space-pledged').textContent = `Space Pledged: ${pib} PiB`;
+    } else {
+      console.error("Le champ 'spacePledged' est absent de la réponse.");
+      document.getElementById('space-pledged').textContent = "Space Pledged: Erreur";
+    }
   } catch (error) {
-    console.error('Error fetching spacePledged:', error);
+    console.error('Erreur lors de la récupération de Space Pledged:', error);
+    document.getElementById('space-pledged').textContent = 'Erreur de récupération';
   }
 }
 
@@ -86,11 +95,16 @@ function fetchBlockHeight() {
 
   socket.onmessage = function (event) {
     const data = JSON.parse(event.data);
-    console.log('Données reçues via WebSocket:', data); // Affiche toutes les données pour vérification
 
-    // Vérifie si la structure de l'objet data contient les valeurs recherchées
+    // Log de la réponse complète pour vérifier la structure
+    console.log('Données complètes reçues via WebSocket:', data);
+
+    // Vérifie si 'blockHeight' est présent dans les données
     if (data.blockHeight) {
       document.getElementById('block-height').textContent = `Block Height: ${data.blockHeight}`;
+    } else {
+      console.error("Le champ 'blockHeight' est absent de la réponse.");
+      document.getElementById('block-height').textContent = "Block Height: Erreur";
     }
   };
 
