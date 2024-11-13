@@ -75,22 +75,30 @@ body {
 
 /* Display for current PiB aligned with the rocket path */
 .pib-display {
-  font-size: 1.5em;
+  font-size: 1.8em;
   position: absolute;
   right: 10%;
-  bottom: 90px;
-  color: #ffffff;
-  text-shadow: 0 0 10px #000000;
+  bottom: 130px; /* Just above the rocket path */
+  color: #ffcc00;
+  text-shadow: 0px 0px 5px #000, 0px 0px 10px #ffcc00;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 8px;
 }
 
 /* Block Height Display on the left of the rocket path */
 .block-height-display {
+  font-size: 1.8em;
   position: absolute;
   left: 10%;
-  bottom: 90px;
-  font-size: 1.2em;
-  color: #ffffff;
-  text-shadow: 0 0 10px #000000;
+  bottom: 130px; /* Just above the rocket path */
+  color: #00ffcc;
+  text-shadow: 0px 0px 5px #000, 0px 0px 10px #00ffcc;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 8px;
 }
 
 /* Button styling */
@@ -154,40 +162,3 @@ button:hover {
   font-weight: bold;
   text-shadow: 0 0 10px #000000;
 }
-/* Block Height Display aligned to the left */
-.block-height-display {
-  font-size: 1.5em;
-  position: absolute;
-  left: 10%;
-  bottom: 90px;
-  color: #ffffff;
-  text-shadow: 0 0 10px #000000;
-}
-/* Block Height Display on the left of the rocket path */
-.block-height-display {
-  font-size: 1.8em;               /* Augmente la taille de la police */
-  position: absolute;
-  left: 10%;
-  bottom: 90px;
-  color: #00ffcc;                 /* Utilise une couleur contrastante */
-  text-shadow: 0px 0px 5px #000, 0px 0px 10px #00ffcc; /* Ajoute une ombre avec une touche de couleur */
-  font-weight: bold;              /* Rend le texte plus épais */
-  background-color: rgba(0, 0, 0, 0.5); /* Ajoute un fond semi-transparent pour améliorer la lisibilité */
-  padding: 5px 10px;              /* Ajoute un padding autour du texte */
-  border-radius: 8px;             /* Arrondit les bords */
-}
-
-/* Display for current PiB aligned with the rocket path */
-.pib-display {
-  font-size: 1.8em;               /* Augmente la taille de la police */
-  position: absolute;
-  right: 10%;
-  bottom: 90px;
-  color: #ffcc00;                 /* Utilise une couleur différente pour le contraste */
-  text-shadow: 0px 0px 5px #000, 0px 0px 10px #ffcc00; /* Ajoute une ombre avec une touche de couleur */
-  font-weight: bold;              /* Rend le texte plus épais */
-  background-color: rgba(0, 0, 0, 0.5); /* Ajoute un fond semi-transparent */
-  padding: 5px 10px;              /* Ajoute un padding autour du texte */
-  border-radius: 8px;             /* Arrondit les bords */
-}
-
