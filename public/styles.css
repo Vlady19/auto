@@ -73,12 +73,12 @@ body {
   transition: left 1s ease-in-out;
 }
 
-/* Display for current PiB aligned with the rocket path */
+/* Display for current PiB aligned with the rocket path *//////////////////////////
 .pib-display {
   font-size: 1.8em;
   position: absolute;
   right: 10%;
-  bottom: 40px; /* Position en dessous de la barre */
+  bottom: 20px; /* Descend encore un peu */
   color: #ffcc00;
   text-shadow: 0px 0px 5px #000, 0px 0px 10px #ffcc00;
   font-weight: bold;
@@ -92,7 +92,7 @@ body {
   font-size: 1.8em;
   position: absolute;
   left: 10%;
-  bottom: 40px; /* Position en dessous de la barre */
+  bottom: 20px; /* Descend encore un peu */
   color: #00ffcc;
   text-shadow: 0px 0px 5px #000, 0px 0px 10px #00ffcc;
   font-weight: bold;
