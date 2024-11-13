@@ -35,25 +35,11 @@ async function fetchSpacePledged() {
   try {
     const response = await fetch('/api/space-pledge');
     const data = await response.json();
-    
-    // Log de la réponse complète pour vérifier la structure
-    console.log('Données complètes reçues pour Space Pledged:', data);
-    
-    // Vérifie si 'spacePledged' est présent dans les données
-    if (data.spacePledged) {
-      const bytes = BigInt(data.spacePledged);
-      const pib = bytesToPiB(bytes);
-      updateRocketPosition(pib);
-
-      // Affiche la valeur Space Pledged sur la page
-      document.getElementById('space-pledged').textContent = `Space Pledged: ${pib} PiB`;
-    } else {
-      console.error("Le champ 'spacePledged' est absent de la réponse.");
-      document.getElementById('space-pledged').textContent = "Space Pledged: Erreur";
-    }
+    const bytes = BigInt(data.spacePledged);
+    const pib = bytesToPiB(bytes);
+    updateRocketPosition(pib);
   } catch (error) {
-    console.error('Erreur lors de la récupération de Space Pledged:', error);
-    document.getElementById('space-pledged').textContent = 'Erreur de récupération';
+    console.error('Error fetching spacePledged:', error);
   }
 }
 
@@ -85,41 +71,8 @@ function resetRocket() {
   pibValue.textContent = '0 PiB out of 20 PiB';
 }
 
-// Fonction pour récupérer le Block Height via WebSocket
-function fetchBlockHeight() {
-  const socket = new WebSocket('wss://rpc.mainnet.subspace.foundation/ws');
-
-  socket.onopen = function () {
-    console.log('Connexion WebSocket établie pour Block Height');
-  };
-
-  socket.onmessage = function (event) {
-    const data = JSON.parse(event.data);
-
-    // Log de la réponse complète pour vérifier la structure
-    console.log('Données complètes reçues via WebSocket:', data);
-
-    // Vérifie si 'blockHeight' est présent dans les données
-    if (data.blockHeight) {
-      document.getElementById('block-height').textContent = `Block Height: ${data.blockHeight}`;
-    } else {
-      console.error("Le champ 'blockHeight' est absent de la réponse.");
-      document.getElementById('block-height').textContent = "Block Height: Erreur";
-    }
-  };
-
-  socket.onerror = function (error) {
-    console.error('Erreur WebSocket:', error);
-  };
-
-  socket.onclose = function () {
-    console.log('Connexion WebSocket fermée');
-  };
-}
-
-// Fetch and update Space Pledged every second
+// Fetch and update every second
 setInterval(fetchSpacePledged, 1000);
 
-// Initial fetches
+// Initial fetch
 fetchSpacePledged();
-fetchBlockHeight();
