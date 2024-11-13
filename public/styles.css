@@ -163,4 +163,31 @@ button:hover {
   color: #ffffff;
   text-shadow: 0 0 10px #000000;
 }
+/* Block Height Display on the left of the rocket path */
+.block-height-display {
+  font-size: 1.8em;               /* Augmente la taille de la police */
+  position: absolute;
+  left: 10%;
+  bottom: 90px;
+  color: #00ffcc;                 /* Utilise une couleur contrastante */
+  text-shadow: 0px 0px 5px #000, 0px 0px 10px #00ffcc; /* Ajoute une ombre avec une touche de couleur */
+  font-weight: bold;              /* Rend le texte plus épais */
+  background-color: rgba(0, 0, 0, 0.5); /* Ajoute un fond semi-transparent pour améliorer la lisibilité */
+  padding: 5px 10px;              /* Ajoute un padding autour du texte */
+  border-radius: 8px;             /* Arrondit les bords */
+}
+
+/* Display for current PiB aligned with the rocket path */
+.pib-display {
+  font-size: 1.8em;               /* Augmente la taille de la police */
+  position: absolute;
+  right: 10%;
+  bottom: 90px;
+  color: #ffcc00;                 /* Utilise une couleur différente pour le contraste */
+  text-shadow: 0px 0px 5px #000, 0px 0px 10px #ffcc00; /* Ajoute une ombre avec une touche de couleur */
+  font-weight: bold;              /* Rend le texte plus épais */
+  background-color: rgba(0, 0, 0, 0.5); /* Ajoute un fond semi-transparent */
+  padding: 5px 10px;              /* Ajoute un padding autour du texte */
+  border-radius: 8px;             /* Arrondit les bords */
+}
 
