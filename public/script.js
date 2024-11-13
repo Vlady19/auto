@@ -52,14 +52,14 @@ function bytesToPiB(bytes) {
 
 // Update the rocket position and PiB display
 function updateRocketPosition(pib) {
-  const maxPiB = 20;
+  const maxPiB = 600;  // Mise à jour pour atteindre 600 PiB
   const percentage = Math.min((pib / maxPiB) * 100, 100);
   
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.textContent = `${pib} PiB out of 20 PiB`;
+  pibValue.textContent = `${pib} PiB out of 600 PiB`;  // Mettre à jour le texte affiché pour 600 PiB
 }
 
 // Reset the rocket position
@@ -68,7 +68,7 @@ function resetRocket() {
   rocket.style.left = '0%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.textContent = '0 PiB out of 20 PiB';
+  pibValue.textContent = '0 PiB out of 600 PiB';
 }
 
 // Fetch and update every second
