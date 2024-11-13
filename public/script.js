@@ -75,11 +75,4 @@ function resetRocket() {
   pibValue.textContent = '0 PiB out of 600 PiB';
 
   const blockHeightDisplay = document.getElementById('blockHeight');
-  blockHeightDisplay.textContent = 'Block Height: N/A';
-}
-
-// Fetch and update every second
-setInterval(fetchSpacePledged, 1000);
-
-// Initial fetch
-fetchSpacePledged();
+  blockHeightDisplay.textContent = 'Block
