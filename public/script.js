@@ -14,12 +14,11 @@ async function fetchBalance() {
   }
 
   try {
-    // Appelle la fonction serverless sur Vercel au lieu de l'API directe
     const response = await fetch(`/api/getBalance?address=${walletAddress}`);
     const data = await response.json();
 
     if (data.balance) {
-      const balanceInAI3 = convertToAI3(Number(data.balance)); // Convertit le solde brut en AI3
+      const balanceInAI3 = convertToAI3(Number(data.balance));
       document.getElementById('balanceDisplay').textContent = `Solde: ${balanceInAI3} AI3`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
@@ -30,14 +29,15 @@ async function fetchBalance() {
   }
 }
 
-// Fonction existante pour l'espace utilisé
+// Fonction pour récupérer l'espace utilisé et le block height
 async function fetchSpacePledged() {
   try {
     const response = await fetch('/api/space-pledge');
     const data = await response.json();
     const bytes = BigInt(data.spacePledged);
+    const blockHeight = data.blockHeight; // Supposons que `blockHeight` est inclus dans la réponse API
     const pib = bytesToPiB(bytes);
-    updateRocketPosition(pib);
+    updateRocketPosition(pib, blockHeight); // Passer le block height à la fonction
   } catch (error) {
     console.error('Error fetching spacePledged:', error);
   }
@@ -47,19 +47,23 @@ async function fetchSpacePledged() {
 function bytesToPiB(bytes) {
   const divisor = BigInt(1024 ** 5);
   const pib = Number(bytes) / Number(divisor);
-  return pib.toFixed(3); // Keep 3 decimal places
+  return pib.toFixed(3);
 }
 
-// Update the rocket position and PiB display
-function updateRocketPosition(pib) {
-  const maxPiB = 600;  // Mise à jour pour atteindre 600 PiB
+// Mettre à jour la position de la fusée, l'affichage PiB, et le block height
+function updateRocketPosition(pib, blockHeight) {
+  const maxPiB = 600;
   const percentage = Math.min((pib / maxPiB) * 100, 100);
   
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.textContent = `${pib} PiB out of 600 PiB`;  // Mettre à jour le texte affiché pour 600 PiB
+  pibValue.textContent = `${pib} PiB out of 600 PiB`;
+
+  // Affiche le block height du côté gauche
+  const blockHeightDisplay = document.getElementById('blockHeight');
+  blockHeightDisplay.textContent = `Block Height: ${blockHeight}`;
 }
 
 // Reset the rocket position
@@ -69,6 +73,9 @@ function resetRocket() {
 
   const pibValue = document.getElementById('pibValue');
   pibValue.textContent = '0 PiB out of 600 PiB';
+
+  const blockHeightDisplay = document.getElementById('blockHeight');
+  blockHeightDisplay.textContent = 'Block Height: N/A';
 }
 
 // Fetch and update every second
