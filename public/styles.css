@@ -144,3 +144,12 @@ button:hover {
   font-weight: bold; /* Makes balance text bold */
   text-shadow: 0 0 10px #000000;
 }
+/* Block Height Display on the left of the rocket path */
+.block-height-display {
+  position: absolute;
+  left: 10%;
+  bottom: 90px;
+  font-size: 1.2em;
+  color: #ffffff;
+  text-shadow: 0 0 10px #000000;
+}
