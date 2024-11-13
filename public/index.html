@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
   <!-- Background Video -->
   <video class="video-background" autoplay loop muted playsinline>
     <source src="background-vid.mp4" type="video/mp4">
@@ -18,13 +17,14 @@
 
   <!-- Rocket Progress Bar at the bottom -->
   <div class="rocket-path">
-    <!-- Block Height display on the left -->
-    <span id="blockHeight" class="block-height-display">Block Height: N/A</span>
     <div class="rocket" id="rocket"></div>
   </div>
 
   <!-- Display of PiB aligned to the end of the rocket path -->
   <div class="pib-display" id="pibValue">Loading...</div>
+
+  <!-- Display for Block Height aligned to the left of the rocket path -->
+  <div class="block-height-display" id="blockHeight">Block Height: N/A</div>
 
   <!-- Reset Button below the PiB display -->
   <button onclick="resetRocket()">Reset</button>
@@ -37,6 +37,5 @@
   </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>
