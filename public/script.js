@@ -41,7 +41,7 @@ async function fetchSpacePledged() {
       const pib = bytesToPiB(bytes);
 
       updateRocketPosition(pib, blockHeight);
-      document.getElementById('spacePledgedDisplay').textContent = `Space Pledged: ${pib} PiB`;
+      //document.getElementById('spacePledgedDisplay').textContent = `Space Pledged: ${pib} PiB`;
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
     }
