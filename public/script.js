@@ -58,15 +58,18 @@ function updateRocketPosition(pib, blockHeight) {
   const rocket = document.getElementById('rocket');
   const rainbow = document.getElementById('rainbow');
 
+  // Update the rocket and rainbow positions
   rocket.style.left = percentage + '%';
-  rainbow.style.width = percentage + '%'; // Set the rainbow width based on the rocket position
+  rainbow.style.width = percentage + '%'; // Set the rainbow width to match the rocket position
 
+  // Update PiB and block height displays
   const pibValue = document.getElementById('pibValue');
   pibValue.textContent = `${pib} PiB out of 600 PiB`;
 
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
+
 
 // Reset the rocket position
 function resetRocket() {
