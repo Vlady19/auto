@@ -50,18 +50,20 @@ function bytesToPiB(bytes) {
   return pib.toFixed(3);
 }
 
-// Mettre à jour la position de la fusée, l'affichage PiB, et le block height
+// Update rocket position, PiB display, and block height with rainbow effect
 function updateRocketPosition(pib, blockHeight) {
   const maxPiB = 600;
   const percentage = Math.min((pib / maxPiB) * 100, 100);
-  
+
   const rocket = document.getElementById('rocket');
+  const rainbow = document.getElementById('rainbow');
+
   rocket.style.left = percentage + '%';
+  rainbow.style.width = percentage + '%'; // Set the rainbow width based on the rocket position
 
   const pibValue = document.getElementById('pibValue');
   pibValue.textContent = `${pib} PiB out of 600 PiB`;
 
-  // Affiche le block height du côté gauche
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
