@@ -63,7 +63,7 @@ function updateRocketPosition(pib, blockHeight) {
 
   // Affiche le block height du côté gauche
   const blockHeightDisplay = document.getElementById('blockHeight');
-  blockHeightDisplay.textContent = `Block Height: ${blockHeight}`;
+  blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
 
 // Reset the rocket position
@@ -75,7 +75,7 @@ function resetRocket() {
   pibValue.textContent = '0 PiB out of 600 PiB';
 
   const blockHeightDisplay = document.getElementById('blockHeight');
-  blockHeightDisplay.textContent = 'Block Height: N/A';
+  blockHeightDisplay.textContent = 'Processed Blocks: N/A';
 }
 
 // Fetch and update every second
