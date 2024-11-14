@@ -4,7 +4,7 @@ function convertToAI3(balance) {
   return (balance / conversionFactor).toFixed(4);
 }
 
-// Fonction pour vérifier le solde du portefeuille
+// Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
 async function fetchBalance() {
   const walletAddress = document.getElementById('walletAddress').value;
 
@@ -19,7 +19,7 @@ async function fetchBalance() {
 
     if (data.balance) {
       const balanceInAI3 = convertToAI3(Number(data.balance));
-      document.getElementById('balanceDisplay').textContent = `Solde: ${balanceInAI3} AI3`;
+      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
@@ -29,39 +29,64 @@ async function fetchBalance() {
   }
 }
 
-// Fonctions de formatage
-const formatSpaceToBinary = (value, decimals = 2) => {
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-  const i = Math.floor(Math.log(value) / Math.log(k));
-  return parseFloat((value / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-};
-
-const formatSpaceToDecimal = (value, decimals = 2) => {
-  const k = 1000;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-  const i = Math.floor(Math.log(value) / Math.log(k));
-  return parseFloat((value / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-};
-
-// Fonction pour récupérer et mettre à jour l'espace utilisé et la hauteur de bloc
+// Fonction pour récupérer l'espace utilisé et le block height
 async function fetchSpacePledged() {
   try {
     const response = await fetch('/api/space-pledge');
     const data = await response.json();
 
-    const spacePledgedNumber = parseInt(data.spacePledged.toString());
-    const formattedSpacePledged = formatSpaceToDecimal(spacePledgedNumber, 2);
+    if (data.spacePledged && data.blockHeight) {
+      const bytes = BigInt(data.spacePledged);
+      const blockHeight = data.blockHeight;
+      const pib = bytesToPiB(bytes);
 
-    document.getElementById('spacePledgedDisplay').textContent = `Space Pledged: ${formattedSpacePledged}`;
-    document.getElementById('blockHeightDisplay').textContent = `Processed Blocks: ${data.blockHeight || 'N/A'}`;
+      updateRocketPosition(pib, blockHeight);
+      document.getElementById('spacePledgedDisplay').textContent = `Space Pledged: ${pib} PiB`;
+    } else {
+      console.error('Données manquantes dans la réponse de /api/space-pledge');
+    }
   } catch (error) {
-    console.error('Erreur lors de la récupération de l\'espace pledge:', error);
+    console.error('Error fetching spacePledged:', error);
   }
 }
 
-// Première récupération et mise à jour toutes les secondes
+// Convert bytes to PiB
+function bytesToPiB(bytes) {
+  const divisor = BigInt(1024 ** 5);
+  const pib = Number(bytes) / Number(divisor);
+  return pib.toFixed(3);
+}
+
+// Fonction pour mettre à jour la position de la fusée et le texte des blocs traités
+function updateRocketPosition(pib, blockHeight) {
+  const maxPiB = 600;
+  const percentage = Math.min((pib / maxPiB) * 100, 100);
+
+  const rocket = document.getElementById('rocket');
+  rocket.style.left = percentage + '%';
+
+  const rainbow = document.getElementById('rainbow');
+  rainbow.style.width = percentage + '%';
+
+  const pibValue = document.getElementById('pibValue');
+  pibValue.innerHTML = `${pib} PiB out of 600 PiB`;
+
+  const blockHeightDisplay = document.getElementById('blockHeight');
+  blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
+}
+
+// Reset function
+function resetRocket() {
+  const rocket = document.getElementById('rocket');
+  rocket.style.left = '0%';
+
+  const pibValue = document.getElementById('pibValue');
+  pibValue.textContent = '0 PiB out of 600 PiB';
+
+  const blockHeightDisplay = document.getElementById('blockHeight');
+  blockHeightDisplay.textContent = 'Processed Blocks: N/A';
+}
+
+// Appel initial et intervalle
 fetchSpacePledged();
 setInterval(fetchSpacePledged, 1000);
