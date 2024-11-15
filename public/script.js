@@ -1,6 +1,6 @@
-// Fonction pour convertir le solde en AI3
-function convertToAI3(balance) {
-  return Number(balance).toFixed(0); // Convertir le solde en nombre entier sans décimales
+// Fonction pour convertir le solde en AI3 sans décimales et sans notation scientifique
+function formatBalance(balance) {
+  return parseFloat(balance).toFixed(0); // Affiche le solde sans décimales
 }
 
 // Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
@@ -14,12 +14,12 @@ async function fetchBalance() {
 
   try {
     const response = await fetch(`/api/getBalance?address=${walletAddress}`);
-    if (!response.ok) throw new Error('Erreur de réponse de l\'API');
+    if (!response.ok) throw new Error("Erreur de réponse de l'API");
 
     const data = await response.json();
 
     if (data.balance) {
-      const balanceInAI3 = convertToAI3(data.balance);
+      const balanceInAI3 = formatBalance(data.balance);
       document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
@@ -37,13 +37,12 @@ async function fetchSpacePledged() {
     const data = await response.json();
 
     if (data.spacePledged && data.blockHeight !== undefined) {
-      // Conversion de spacePledged de BigInt à un nombre pour le format PB
       const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
 
       // Conversion en PB et calcul du pourcentage
-      const spacePledgedPB = (spacePledgedNumber / 1e15).toFixed(2); // Conversion en PB avec 2 décimales
+      const spacePledgedPB = (spacePledgedNumber / 1e15).toFixed(2);
       const maxPB = 600;
-      const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2); // Limite à 100%
+      const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2);
 
       // Mise à jour des éléments HTML et de la position de la fusée
       updateRocketPosition(spacePledgedPB, percentage, data.blockHeight);
@@ -64,7 +63,7 @@ function updateRocketPosition(pib, percentage, blockHeight) {
   rocket.style.left = percentage + '%';
 
   // Applique le pourcentage à l'arc-en-ciel avec un léger décalage pour rattraper
-  rainbow.style.width = (parseFloat(percentage) + 1) + '%'; // Ajouter un pourcentage supplémentaire
+  rainbow.style.width = (parseFloat(percentage) + 1) + '%';
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
@@ -78,7 +77,6 @@ function resetRocket() {
   const rocket = document.getElementById('rocket');
   const rainbow = document.getElementById('rainbow');
 
-  // Remet les deux éléments à zéro
   rocket.style.left = '0%';
   rainbow.style.width = '0%';
 
