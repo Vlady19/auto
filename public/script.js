@@ -1,3 +1,8 @@
+// Fonction pour convertir le solde en AI3
+function convertToAI3(balance) {
+  return Number(balance).toFixed(0);
+}
+
 // Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
 async function fetchBalance() {
   const walletAddress = document.getElementById('walletAddress').value;
@@ -12,10 +17,8 @@ async function fetchBalance() {
     const data = await response.json();
 
     if (data.balance) {
-      // Diviser par 10^18 pour convertir le solde en AI3 et retirer les décimales inutiles
-      const balanceInAI3 = (Number(data.balance) / 1e18);
-      const displayBalance = balanceInAI3 % 1 === 0 ? balanceInAI3.toFixed(0) : balanceInAI3.toString();
-      document.getElementById('balanceDisplay').textContent = `Balance: ${displayBalance} AI3`;
+      const balanceInAI3 = convertToAI3(data.balance);
+      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
@@ -25,8 +28,6 @@ async function fetchBalance() {
   }
 }
 
-
-
 // Fonction pour récupérer l'espace utilisé et le block height
 async function fetchSpacePledged() {
   try {
@@ -34,11 +35,15 @@ async function fetchSpacePledged() {
     const data = await response.json();
 
     if (data.spacePledged && data.blockHeight !== undefined) {
+      // Conversion de spacePledged de BigInt à un nombre pour le format PB
       const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
+
+      // Conversion en PB et calcul du pourcentage
       const spacePledgedPB = (spacePledgedNumber / 1e15).toFixed(2); // Conversion en PB avec 2 décimales
       const maxPB = 600;
-      const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2);
+      const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2); // Limite à 100%
 
+      // Mise à jour des éléments HTML et de la position de la fusée
       updateRocketPosition(spacePledgedPB, percentage, data.blockHeight);
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
@@ -55,8 +60,7 @@ function updateRocketPosition(pib, percentage, blockHeight) {
 
   // Assurer que l'arc-en-ciel suit exactement la fusée
   const rainbow = document.getElementById('rainbow');
-  rainbow.style.left = '0'; // L'arc-en-ciel commence au début du chemin
-  rainbow.style.width = percentage + '%'; // Utiliser le même pourcentage pour la largeur
+  rainbow.style.width = percentage + '%'; // Applique exactement la même largeur
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
@@ -64,7 +68,6 @@ function updateRocketPosition(pib, percentage, blockHeight) {
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
-
 
 // Reset function
 function resetRocket() {
@@ -81,6 +84,3 @@ function resetRocket() {
 // Appel initial et intervalle pour mettre à jour toutes les secondes
 fetchSpacePledged();
 setInterval(fetchSpacePledged, 1000);
-
-// Associer l'événement de clic au bouton pour vérifier le solde
-document.getElementById('checkBalanceButton').addEventListener('click', fetchBalance);
