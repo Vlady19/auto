@@ -3,7 +3,6 @@ function convertToAI3(balance) {
   const conversionFactor = 1.1163e17;
   return (balance / conversionFactor).toFixed(4);
 }
-import { formatSpaceToDecimal } from '@autonomys/auto-consensus/utils/format';
 
 // Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
 async function fetchBalance() {
@@ -37,14 +36,13 @@ async function fetchSpacePledged() {
     const data = await response.json();
 
     if (data.spacePledged && data.blockHeight) {
-      // Conversion de BigInt en nombre pour utiliser la fonction de formatage
-      const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
-
-      // Formater l'espace en PB (pétabytes) au format décimal
-      const formattedSpacePledged = formatSpaceToDecimal(spacePledgedNumber, 2);
-
+      const bytes = BigInt(data.spacePledged);
       const blockHeight = data.blockHeight;
-      updateRocketPosition(formattedSpacePledged, blockHeight);
+      const pib = bytesToPiB(bytes);
+
+      updateRocketPosition(pib, blockHeight);
+      document.getElementById('spacePledgedDisplay').textContent = `Space Pledged: ${pib} PiB`;
+      //document.getElementById('spacePledgedDisplay').textContent = `Space Pledged: ${pib} PiB`;
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
     }
@@ -52,7 +50,6 @@ async function fetchSpacePledged() {
     console.error('Error fetching spacePledged:', error);
   }
 }
-
 
 // Convert bytes to PiB
 function bytesToPiB(bytes) {
@@ -62,9 +59,9 @@ function bytesToPiB(bytes) {
 }
 
 // Fonction pour mettre à jour la position de la fusée et le texte des blocs traités
-function updateRocketPosition(formattedSpacePledged, blockHeight) {
-  const maxPB = 600; // Limite de 600 PB au lieu de 600 PiB pour l'exemple
-  const percentage = Math.min((formattedSpacePledged / maxPB) * 100, 100);
+function updateRocketPosition(pib, blockHeight) {
+  const maxPiB = 600;
+  const percentage = Math.min((pib / maxPiB) * 100, 100);
 
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
@@ -73,12 +70,11 @@ function updateRocketPosition(formattedSpacePledged, blockHeight) {
   rainbow.style.width = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.innerHTML = `${formattedSpacePledged} PB out of 600 PB`;
+  pibValue.innerHTML = `${pib} PiB out of 600 PiB`;
 
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
-
 
 // Reset function
 function resetRocket() {
