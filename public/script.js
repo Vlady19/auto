@@ -30,7 +30,7 @@ async function fetchSpacePledged() {
 
     if (data.spacePledged && data.blockHeight !== undefined) {
       const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
-      const spacePledgedPB = (spacePledgedNumber / 1e15).toFixed(2);
+      const spacePledgedPB = (spacePledgedNumber / 1e15).toFixed(2); // Conversion en PB avec 2 décimales
       const maxPB = 600;
       const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2);
 
@@ -50,7 +50,7 @@ function updateRocketPosition(pib, percentage, blockHeight) {
 
   const rainbow = document.getElementById('rainbow');
   rainbow.style.left = '0';
-  rainbow.style.width = (parseFloat(percentage) + 1) + '%';
+  rainbow.style.width = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
@@ -74,3 +74,6 @@ function resetRocket() {
 // Appel initial et intervalle pour mettre à jour toutes les secondes
 fetchSpacePledged();
 setInterval(fetchSpacePledged, 1000);
+
+// Associer l'événement de clic au bouton pour vérifier le solde
+document.getElementById('checkBalanceButton').addEventListener('click', fetchBalance);
