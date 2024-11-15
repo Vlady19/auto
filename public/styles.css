@@ -72,6 +72,7 @@ body {
   background: url('rocket.png') no-repeat center;
   background-size: contain;
   transition: left 1s ease-in-out;
+  z-index: 2; /* La fusée reste devant */
 }
 
 /* Display for current PiB aligned with the rocket path */
@@ -176,7 +177,7 @@ button:hover {
   width: 0; /* La largeur sera ajustée dynamiquement */
   background: linear-gradient(
     to right,
-    rgba(255, 0, 0, 0.6), /* Augmentez la transparence si nécessaire */
+    rgba(255, 0, 0, 0.6),
     rgba(255, 165, 0, 0.6),
     rgba(255, 255, 0, 0.6),
     rgba(0, 255, 0, 0.6),
@@ -185,7 +186,7 @@ button:hover {
     rgba(238, 130, 238, 0.6)
   );
   border-radius: 30px 0 0 30px;
-  z-index: 1; /* Assure que l'arc-en-ciel reste derrière la fusée */
+  z-index: 1; /* L'arc-en-ciel reste derrière la fusée */
 }
 /* Style pour le pourcentage en bleu ciel */
 .percentage {
