@@ -58,9 +58,11 @@ function updateRocketPosition(pib, percentage, blockHeight) {
   const rocket = document.getElementById('rocket');
   const rainbow = document.getElementById('rainbow');
 
-  // Applique le même pourcentage pour la fusée et l'arc-en-ciel
+  // Applique le pourcentage à la fusée
   rocket.style.left = percentage + '%';
-  rainbow.style.width = percentage + '%';
+
+  // Applique le pourcentage à l'arc-en-ciel avec un léger décalage pour rattraper
+  rainbow.style.width = (parseFloat(percentage) + 1) + '%'; // Ajouter un pourcentage supplémentaire
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
