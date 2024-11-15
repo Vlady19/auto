@@ -19,8 +19,8 @@ async function fetchBalance() {
     const data = await response.json();
 
     if (data.balance) {
-      const balanceInAI3 = formatBalance(data.balance);
-      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
+      const balanceInAI3 = Math.round(data.balance / 1e18); // Formatage sans décimales
+      document.getElementById('balanceAmount').textContent = balanceInAI3;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
@@ -29,6 +29,7 @@ async function fetchBalance() {
     document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
   }
 }
+
 
 // Fonction pour récupérer l'espace utilisé et le block height
 async function fetchSpacePledged() {
