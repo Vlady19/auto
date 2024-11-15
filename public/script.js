@@ -30,7 +30,6 @@ async function fetchBalance() {
 }
 
 // Fonction pour récupérer l'espace utilisé et le block height
-// Fonction pour récupérer l'espace utilisé et le block height
 async function fetchSpacePledged() {
   try {
     const response = await fetch('/api/space-pledge');
@@ -40,11 +39,13 @@ async function fetchSpacePledged() {
       // Conversion de spacePledged de BigInt à un nombre pour le format PB
       const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
 
-      // Utiliser une conversion simple en PB
+      // Conversion en PB et calcul du pourcentage
       const spacePledgedPB = (spacePledgedNumber / 1e15).toFixed(2); // Conversion en PB avec 2 décimales
-      
+      const maxPB = 600;
+      const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2); // Limite à 100%
+
       // Mise à jour des éléments HTML
-      document.getElementById('pibValue').textContent = `${spacePledgedPB} PB out of 600 PB`;
+      document.getElementById('pibValue').innerHTML = `${spacePledgedPB} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
       document.getElementById('blockHeight').textContent = `Processed Blocks: ${data.blockHeight}`;
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
@@ -53,6 +54,8 @@ async function fetchSpacePledged() {
     console.error('Erreur lors de la récupération des données:', error);
   }
 }
+
+
 
 
 
