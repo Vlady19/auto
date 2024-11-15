@@ -56,11 +56,11 @@ async function fetchSpacePledged() {
 // Fonction pour mettre à jour la position de la fusée, l'arc-en-ciel, et le texte des blocs traités
 function updateRocketPosition(pib, percentage, blockHeight) {
   const rocket = document.getElementById('rocket');
-  rocket.style.left = percentage + '%';
-
-  // Assurer que l'arc-en-ciel suit exactement la fusée
   const rainbow = document.getElementById('rainbow');
-  rainbow.style.width = percentage + '%'; // Applique exactement la même largeur
+
+  // Applique le même pourcentage pour la fusée et l'arc-en-ciel
+  rocket.style.left = percentage + '%';
+  rainbow.style.width = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
@@ -72,7 +72,11 @@ function updateRocketPosition(pib, percentage, blockHeight) {
 // Reset function
 function resetRocket() {
   const rocket = document.getElementById('rocket');
+  const rainbow = document.getElementById('rainbow');
+
+  // Remet les deux éléments à zéro
   rocket.style.left = '0%';
+  rainbow.style.width = '0%';
 
   const pibValue = document.getElementById('pibValue');
   pibValue.textContent = '0 PB out of 600 PB';
