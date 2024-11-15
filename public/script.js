@@ -62,9 +62,9 @@ function bytesToPiB(bytes) {
 }
 
 // Fonction pour mettre à jour la position de la fusée et le texte des blocs traités
-function updateRocketPosition(pib, blockHeight) {
-  const maxPiB = 600;
-  const percentage = Math.min((pib / maxPiB) * 100, 100);
+function updateRocketPosition(formattedSpacePledged, blockHeight) {
+  const maxPB = 600; // Limite de 600 PB au lieu de 600 PiB pour l'exemple
+  const percentage = Math.min((formattedSpacePledged / maxPB) * 100, 100);
 
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
@@ -73,11 +73,12 @@ function updateRocketPosition(pib, blockHeight) {
   rainbow.style.width = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.innerHTML = `${pib} PiB out of 600 PiB`;
+  pibValue.innerHTML = `${formattedSpacePledged} PB out of 600 PB`;
 
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
+
 
 // Reset function
 function resetRocket() {
