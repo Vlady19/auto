@@ -1,6 +1,6 @@
-// Fonction pour convertir le solde en AI3 sans décimales et sans notation scientifique
+// Fonction pour formater le solde en AI3 sans notation scientifique ni décimales
 function formatBalance(balance) {
-  return parseFloat(balance).toFixed(0); // Affiche le solde sans décimales
+  return Math.round(balance / 1e18); // Divise par 1e18 pour obtenir le solde en AI3 et arrondit
 }
 
 // Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
