@@ -1,6 +1,6 @@
 // Fonction pour convertir le solde en AI3
 function convertToAI3(balance) {
-  return Number(balance).toFixed(0);
+  return Number(balance).toFixed(0); // Convertir le solde en nombre entier sans décimales
 }
 
 // Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
@@ -14,6 +14,8 @@ async function fetchBalance() {
 
   try {
     const response = await fetch(`/api/getBalance?address=${walletAddress}`);
+    if (!response.ok) throw new Error('Erreur de réponse de l\'API');
+
     const data = await response.json();
 
     if (data.balance) {
@@ -86,6 +88,9 @@ function resetRocket() {
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = 'Processed Blocks: N/A';
 }
+
+// Associe le bouton de vérification du solde à l'appel de la fonction fetchBalance
+document.getElementById('checkBalanceButton').addEventListener('click', fetchBalance);
 
 // Appel initial et intervalle pour mettre à jour toutes les secondes
 fetchSpacePledged();
