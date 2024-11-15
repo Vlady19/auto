@@ -12,9 +12,10 @@ async function fetchBalance() {
     const data = await response.json();
 
     if (data.balance) {
-      // Diviser par 10^18 pour convertir le solde en format AI3 plus lisible
-      const balanceInAI3 = (Number(data.balance) / 1e18).toFixed(4);
-      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
+      // Diviser par 10^18 pour convertir le solde en AI3 et retirer les décimales inutiles
+      const balanceInAI3 = (Number(data.balance) / 1e18);
+      const displayBalance = balanceInAI3 % 1 === 0 ? balanceInAI3.toFixed(0) : balanceInAI3.toString();
+      document.getElementById('balanceDisplay').textContent = `Balance: ${displayBalance} AI3`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
@@ -23,6 +24,7 @@ async function fetchBalance() {
     document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
   }
 }
+
 
 
 // Fonction pour récupérer l'espace utilisé et le block height
