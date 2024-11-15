@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -72,7 +71,7 @@ body {
   background: url('rocket.png') no-repeat center;
   background-size: contain;
   transition: left 1s ease-in-out;
-  z-index: 2; /* La fusée est devant */
+  z-index: 2;
 }
 
 /* Display for current PiB aligned with the rocket path */
@@ -80,7 +79,7 @@ body {
   font-size: 1.8em;
   position: absolute;
   right: 10%;
-  bottom: 20px; /* Descend encore un peu */
+  bottom: 20px;
   color: #ffcc00;
   text-shadow: 0px 0px 5px #000, 0px 0px 10px #ffcc00;
   font-weight: bold;
@@ -94,7 +93,7 @@ body {
   font-size: 1.8em;
   position: absolute;
   left: 10%;
-  bottom: 20px; /* Descend encore un peu */
+  bottom: 20px;
   color: #00ffcc;
   text-shadow: 0px 0px 5px #000, 0px 0px 10px #00ffcc;
   font-weight: bold;
@@ -102,9 +101,6 @@ body {
   padding: 5px 10px;
   border-radius: 8px;
 }
-
-
-
 
 /* Button styling */
 button {
@@ -160,41 +156,9 @@ button:hover {
   background-color: #45a049;
 }
 
-/* Balance display styling */
+/* Balance display styling with glow and stars */
 #balanceDisplay {
   margin-top: 10px;
-  font-size: 1.2em;
-  font-weight: bold;
-  text-shadow: 0 0 10px #000000;
-}
-
-/* Arc-en-ciel */
-.rainbow {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  width: 0; /* La largeur sera ajustée dynamiquement */
-  background: linear-gradient(
-    to right,
-    rgba(255, 0, 0, 0.6),
-    rgba(255, 165, 0, 0.6),
-    rgba(255, 255, 0, 0.6),
-    rgba(0, 255, 0, 0.6),
-    rgba(0, 0, 255, 0.6),
-    rgba(75, 0, 130, 0.6),
-    rgba(238, 130, 238, 0.6)
-  );
-  border-radius: 30px 0 0 30px;
-  z-index: 1; /* L'arc-en-ciel est derrière */
-}
-/* Style pour le pourcentage en bleu ciel */
-.percentage {
-  color: #00ccff; /* Bleu ciel */
-  font-weight: bold;
-}
-/* Style de base pour le texte de la balance */
-#balanceDisplay {
   font-size: 1.5em;
   font-weight: bold;
   color: #ffffff;
@@ -203,7 +167,6 @@ button:hover {
   display: inline-block;
 }
 
-/* Animation pour les étoiles scintillantes autour du texte */
 @keyframes sparkle {
   0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
   50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
@@ -220,9 +183,29 @@ button:hover {
   animation: sparkle 1.5s infinite ease-in-out;
 }
 
-/* Positionnez les étoiles autour du texte */
 #balanceDisplay .star:nth-child(1) { top: 0%; left: 10%; animation-delay: 0s; }
 #balanceDisplay .star:nth-child(2) { top: 20%; left: 90%; animation-delay: 0.2s; }
 #balanceDisplay .star:nth-child(3) { top: 70%; left: 0%; animation-delay: 0.4s; }
 #balanceDisplay .star:nth-child(4) { top: 50%; left: 50%; animation-delay: 0.6s; }
 #balanceDisplay .star:nth-child(5) { top: 80%; left: 80%; animation-delay: 0.8s; }
+
+/* Arc-en-ciel */
+.rainbow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255, 0, 0, 0.6),
+    rgba(255, 165, 0, 0.6),
+    rgba(255, 255, 0, 0.6),
+    rgba(0, 255, 0, 0.6),
+    rgba(0, 0, 255, 0.6),
+    rgba(75, 0, 130, 0.6),
+    rgba(238, 130, 238, 0.6)
+  );
+  border-radius: 30px 0 0 30px;
+  z-index: 1;
+}
