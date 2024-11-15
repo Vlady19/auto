@@ -35,7 +35,7 @@ async function fetchSpacePledged() {
     const response = await fetch('/api/space-pledge');
     const data = await response.json();
 
-    if (data.spacePledged && data.blockHeight) {
+    if (data.spacePledged && data.blockHeight !== undefined) {
       // Conversion de spacePledged de BigInt à un nombre pour le format PB
       const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
 
@@ -44,12 +44,8 @@ async function fetchSpacePledged() {
       const maxPB = 600;
       const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2); // Limite à 100%
 
-      // Mise à jour des éléments HTML
-      document.getElementById('pibValue').innerHTML = `${spacePledgedPB} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
-      document.getElementById('blockHeight').textContent = `Processed Blocks: ${data.blockHeight}`;
-
-      // Mise à jour de la position de la fusée et de l'arc-en-ciel
-      updateRocketPosition(percentage);
+      // Mise à jour des éléments HTML et de la position de la fusée
+      updateRocketPosition(spacePledgedPB, percentage, data.blockHeight);
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
     }
@@ -58,20 +54,8 @@ async function fetchSpacePledged() {
   }
 }
 
-
-
-// Convert bytes to PiB
-function bytesToPiB(bytes) {
-  const divisor = BigInt(1024 ** 5);
-  const pib = Number(bytes) / Number(divisor);
-  return pib.toFixed(3);
-}
-
 // Fonction pour mettre à jour la position de la fusée, l'arc-en-ciel, et le texte des blocs traités
-function updateRocketPosition(pib, blockHeight) {
-  const maxPiB = 600;
-  const percentage = Math.min((pib / maxPiB) * 100, 100).toFixed(2); // Calcul du pourcentage et limitation à 100%
-
+function updateRocketPosition(pib, percentage, blockHeight) {
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
 
@@ -85,19 +69,18 @@ function updateRocketPosition(pib, blockHeight) {
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
 
-
 // Reset function
 function resetRocket() {
   const rocket = document.getElementById('rocket');
   rocket.style.left = '0%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.textContent = '0 PiB out of 600 PiB';
+  pibValue.textContent = '0 PB out of 600 PB';
 
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = 'Processed Blocks: N/A';
 }
 
-// Appel initial et intervalle
+// Appel initial et intervalle pour mettre à jour toutes les secondes
 fetchSpacePledged();
 setInterval(fetchSpacePledged, 1000);
