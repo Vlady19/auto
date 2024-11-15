@@ -12,6 +12,23 @@ async function fetchBalance() {
     const data = await response.json();
 
     if (data.balance) {
+      // Diviser par 10^18 pour convertir le solde en format AI3 plus lisible
+      const balanceInAI3 = (Number(data.balance) / 1e18).toFixed(4);
+      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
+    } else {
+      document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération du solde:', error);
+    document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+  }
+}
+
+  try {
+    const response = await fetch(`/api/getBalance?address=${walletAddress}`);
+    const data = await response.json();
+
+    if (data.balance) {
       document.getElementById('balanceDisplay').textContent = `Balance: ${data.balance} AI3`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
