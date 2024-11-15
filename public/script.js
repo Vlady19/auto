@@ -31,6 +31,7 @@ async function fetchBalance() {
 }
 
 
+
 // Fonction pour récupérer l'espace utilisé et le block height
 async function fetchSpacePledged() {
   try {
