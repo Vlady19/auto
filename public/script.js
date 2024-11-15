@@ -4,7 +4,7 @@ function convertToAI3(balance) {
   return (balance / conversionFactor).toFixed(4);
 }
 
-// Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
+// Fonction pour vérifier le solde en utilisant l'Auto SDK
 async function fetchBalance() {
   const walletAddress = document.getElementById('walletAddress').value;
 
@@ -14,14 +14,25 @@ async function fetchBalance() {
   }
 
   try {
-    const response = await fetch(`/api/getBalance?address=${walletAddress}`);
-    const data = await response.json();
+    // Vérifiez que l'Auto SDK est disponible
+    if (window.AutoConsensus) {
+      // Initialisez AutoConsensus avec la configuration du réseau appropriée
+      const autoConsensus = new window.AutoConsensus.AutoConsensus({
+        network: 'mainnet', // Remplacez par 'testnet' si vous utilisez le réseau de test
+      });
 
-    if (data.balance) {
-      const balanceInAI3 = convertToAI3(Number(data.balance));
+      // Récupérez le solde en utilisant le SDK
+      const balanceBigInt = await autoConsensus.getBalance(walletAddress);
+
+      // Convertissez le BigInt en Number
+      const balance = Number(balanceBigInt);
+
+      // Convertissez le solde en AI3
+      const balanceInAI3 = convertToAI3(balance);
       document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
     } else {
-      document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+      console.error('Auto SDK non disponible.');
+      document.getElementById('balanceDisplay').textContent = 'Erreur : Auto SDK non disponible';
     }
   } catch (error) {
     console.error('Erreur lors de la récupération du solde:', error);
@@ -61,8 +72,8 @@ function updateRocketPosition(pib, percentage, blockHeight) {
 
   // Ajustez la largeur de l'arc-en-ciel pour qu'il soit légèrement en avance par rapport à la fusée
   const rainbow = document.getElementById('rainbow');
-  rainbow.style.left = '0'; // Assurez-vous que l'arc-en-ciel commence au début du chemin
-  rainbow.style.width = (parseFloat(percentage) + 1) + '%'; // Ajout d'un léger décalage de 2%
+  rainbow.style.left = '0'; // L'arc-en-ciel commence au début du chemin
+  rainbow.style.width = (parseFloat(percentage) + 1) + '%'; // Ajustez le décalage si nécessaire
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
@@ -70,10 +81,6 @@ function updateRocketPosition(pib, percentage, blockHeight) {
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
-
-
-
-
 
 // Reset function
 function resetRocket() {
