@@ -12,7 +12,9 @@ async function fetchBalance() {
     const data = await response.json();
 
     if (data.balance) {
-      document.getElementById('balanceDisplay').textContent = `Balance: ${data.balance} AI3`;
+      // Diviser par 10^18 pour convertir le solde en format AI3 plus lisible
+      const balanceInAI3 = (Number(data.balance) / 1e18).toFixed(4);
+      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
     } else {
       document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
@@ -21,6 +23,7 @@ async function fetchBalance() {
     document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
   }
 }
+
 
 // Fonction pour récupérer l'espace utilisé et le block height
 async function fetchSpacePledged() {
