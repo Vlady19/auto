@@ -1,10 +1,5 @@
-// Fonction pour convertir le solde en AI3
-function convertToAI3(balance) {
-  const conversionFactor = 1.1163e17;
-  return (balance / conversionFactor).toFixed(4);
-}
+import { getBalance } from '@autonomys/auto-consensus';
 
-// Fonction pour vérifier le solde en utilisant l'Auto SDK
 async function fetchBalance() {
   const walletAddress = document.getElementById('walletAddress').value;
 
@@ -14,25 +9,13 @@ async function fetchBalance() {
   }
 
   try {
-    // Vérifiez que l'Auto SDK est disponible
-    if (window.AutoConsensus) {
-      // Initialisez AutoConsensus avec la configuration du réseau appropriée
-      const autoConsensus = new window.AutoConsensus.AutoConsensus({
-        network: 'mainnet', // Remplacez par 'testnet' si vous utilisez le réseau de test
-      });
+    // Utilisation de la fonction getBalance de l'Auto SDK
+    const balance = await getBalance(walletAddress);
 
-      // Récupérez le solde en utilisant le SDK
-      const balanceBigInt = await autoConsensus.getBalance(walletAddress);
-
-      // Convertissez le BigInt en Number
-      const balance = Number(balanceBigInt);
-
-      // Convertissez le solde en AI3
-      const balanceInAI3 = convertToAI3(balance);
-      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
+    if (balance) {
+      document.getElementById('balanceDisplay').textContent = `Balance: ${balance} AI3`;
     } else {
-      console.error('Auto SDK non disponible.');
-      document.getElementById('balanceDisplay').textContent = 'Erreur : Auto SDK non disponible';
+      document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
     }
   } catch (error) {
     console.error('Erreur lors de la récupération du solde:', error);
@@ -47,15 +30,10 @@ async function fetchSpacePledged() {
     const data = await response.json();
 
     if (data.spacePledged && data.blockHeight !== undefined) {
-      // Conversion de spacePledged de BigInt à un nombre pour le format PB
-      const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
-
-      // Conversion en PB et calcul du pourcentage
-      const spacePledgedPB = (spacePledgedNumber / 1e15).toFixed(2); // Conversion en PB avec 2 décimales
+      const spacePledgedPB = (parseInt(data.spacePledged.toString(), 10) / 1e15).toFixed(2);
       const maxPB = 600;
-      const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2); // Limite à 100%
+      const percentage = Math.min((spacePledgedPB / maxPB) * 100, 100).toFixed(2);
 
-      // Mise à jour des éléments HTML et de la position de la fusée
       updateRocketPosition(spacePledgedPB, percentage, data.blockHeight);
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
@@ -70,10 +48,9 @@ function updateRocketPosition(pib, percentage, blockHeight) {
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
 
-  // Ajustez la largeur de l'arc-en-ciel pour qu'il soit légèrement en avance par rapport à la fusée
   const rainbow = document.getElementById('rainbow');
-  rainbow.style.left = '0'; // L'arc-en-ciel commence au début du chemin
-  rainbow.style.width = (parseFloat(percentage) + 1) + '%'; // Ajustez le décalage si nécessaire
+  rainbow.style.left = '0';
+  rainbow.style.width = (parseFloat(percentage) + 1) + '%';
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
