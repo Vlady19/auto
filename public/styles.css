@@ -193,3 +193,36 @@ button:hover {
   color: #00ccff; /* Bleu ciel */
   font-weight: bold;
 }
+/* Style de base pour le texte de la balance */
+#balanceDisplay {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0px 0px 10px #ffffff, 0px 0px 20px #ffffff;
+  position: relative;
+  display: inline-block;
+}
+
+/* Animation pour les étoiles scintillantes autour du texte */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+#balanceDisplay .star {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.6);
+  animation: sparkle 1.5s infinite ease-in-out;
+}
+
+/* Positionnez les étoiles autour du texte */
+#balanceDisplay .star:nth-child(1) { top: 0%; left: 10%; animation-delay: 0s; }
+#balanceDisplay .star:nth-child(2) { top: 20%; left: 90%; animation-delay: 0.2s; }
+#balanceDisplay .star:nth-child(3) { top: 70%; left: 0%; animation-delay: 0.4s; }
+#balanceDisplay .star:nth-child(4) { top: 50%; left: 50%; animation-delay: 0.6s; }
+#balanceDisplay .star:nth-child(5) { top: 80%; left: 80%; animation-delay: 0.8s; }
