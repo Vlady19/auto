@@ -6,48 +6,38 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Background Video -->
   <video class="video-background" autoplay loop muted playsinline>
     <source src="background-vid.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   
-  <!-- Autonomys Logo -->
   <img src="autonomys-logo.png" alt="Autonomys Logo" class="logo">
 
-  <!-- Rocket Progress Bar at the bottom -->
   <div class="rocket-path">
     <div class="rainbow" id="rainbow"></div>
     <div class="rocket" id="rocket"></div>
   </div>
 
-  <!-- Display of PiB aligned to the end of the rocket path -->
   <div class="pib-display" id="pibValue">Loading...</div>
 
-  <!-- Display for Processed Blocks aligned to the left of the rocket path -->
   <div class="block-height-display" id="blockHeight">Processed Blocks: N/A</div>
 
-  <!-- Reset Button below the PiB display -->
   <button onclick="resetRocket()">Reset</button>
 
-  <!-- Wallet input and balance display -->
   <div class="wallet-section">
     <input type="text" id="walletAddress" placeholder="Enter your wallet address">
     <button id="checkBalanceButton">Check balance</button>
     <p id="balanceDisplay">
-  Balance: <span id="balanceAmount">--</span> AI3
-  <span class="star"></span>
-  <span class="star"></span>
-  <span class="star"></span>
-  <span class="star"></span>
-  <span class="star"></span>
-</p>
+      Balance: <span id="balanceAmount">--</span> AI3
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+    </p>
   </div>
 
-  <!-- Import Auto SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@autonomys/auto-consensus@latest/dist/auto-consensus.umd.min.js"></script>
-  
-  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>
