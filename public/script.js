@@ -3,6 +3,7 @@ function convertToAI3(balance) {
   const conversionFactor = 1.1163e17;
   return (balance / conversionFactor).toFixed(4);
 }
+import { formatSpaceToDecimal } from '@autonomys/auto-consensus/utils/format';
 
 // Fonction pour vérifier le solde en utilisant l'adresse du portefeuille
 async function fetchBalance() {
@@ -36,12 +37,14 @@ async function fetchSpacePledged() {
     const data = await response.json();
 
     if (data.spacePledged && data.blockHeight) {
-      const bytes = BigInt(data.spacePledged);
-      const blockHeight = data.blockHeight;
-      const pib = bytesToPiB(bytes);
+      // Conversion de BigInt en nombre pour utiliser la fonction de formatage
+      const spacePledgedNumber = parseInt(data.spacePledged.toString(), 10);
 
-      updateRocketPosition(pib, blockHeight);
-      //document.getElementById('spacePledgedDisplay').textContent = `Space Pledged: ${pib} PiB`;
+      // Formater l'espace en PB (pétabytes) au format décimal
+      const formattedSpacePledged = formatSpaceToDecimal(spacePledgedNumber, 2);
+
+      const blockHeight = data.blockHeight;
+      updateRocketPosition(formattedSpacePledged, blockHeight);
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
     }
@@ -49,6 +52,7 @@ async function fetchSpacePledged() {
     console.error('Error fetching spacePledged:', error);
   }
 }
+
 
 // Convert bytes to PiB
 function bytesToPiB(bytes) {
