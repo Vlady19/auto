@@ -47,6 +47,9 @@ async function fetchSpacePledged() {
       // Mise à jour des éléments HTML
       document.getElementById('pibValue').innerHTML = `${spacePledgedPB} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
       document.getElementById('blockHeight').textContent = `Processed Blocks: ${data.blockHeight}`;
+
+      // Mise à jour de la position de la fusée et de l'arc-en-ciel
+      updateRocketPosition(percentage);
     } else {
       console.error('Données manquantes dans la réponse de /api/space-pledge');
     }
@@ -57,8 +60,6 @@ async function fetchSpacePledged() {
 
 
 
-
-
 // Convert bytes to PiB
 function bytesToPiB(bytes) {
   const divisor = BigInt(1024 ** 5);
@@ -66,10 +67,10 @@ function bytesToPiB(bytes) {
   return pib.toFixed(3);
 }
 
-// Fonction pour mettre à jour la position de la fusée et le texte des blocs traités
+// Fonction pour mettre à jour la position de la fusée, l'arc-en-ciel, et le texte des blocs traités
 function updateRocketPosition(pib, blockHeight) {
   const maxPiB = 600;
-  const percentage = Math.min((pib / maxPiB) * 100, 100);
+  const percentage = Math.min((pib / maxPiB) * 100, 100).toFixed(2); // Calcul du pourcentage et limitation à 100%
 
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
@@ -78,11 +79,12 @@ function updateRocketPosition(pib, blockHeight) {
   rainbow.style.width = percentage + '%';
 
   const pibValue = document.getElementById('pibValue');
-  pibValue.innerHTML = `${pib} PiB out of 600 PiB`;
+  pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
 
   const blockHeightDisplay = document.getElementById('blockHeight');
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
+
 
 // Reset function
 function resetRocket() {
