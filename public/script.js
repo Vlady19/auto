@@ -1,13 +1,10 @@
-// Importation des modules nécessaires du SDK
-import { Account } from '@autonomys/auto-consensus';
-
 // Fonction pour convertir le solde en AI3
 function convertToAI3(balance) {
   const conversionFactor = 1.1163e17;
   return (balance / conversionFactor).toFixed(4);
 }
 
-// Fonction pour vérifier le solde en utilisant l'Auto SDK
+// Fonction pour vérifier le solde en utilisant l'adresse du portefeuille avec auto-consensus
 async function fetchBalance() {
   const walletAddress = document.getElementById('walletAddress').value;
 
@@ -17,17 +14,18 @@ async function fetchBalance() {
   }
 
   try {
-    // Instanciation de l'objet Account avec l'adresse du portefeuille
-    const account = new Account(walletAddress);
+    // Utilisez le SDK pour récupérer le solde
+    const { getBalance } = autonomys.autoConsensus;
+    const balance = await getBalance(walletAddress);
 
-    // Récupération du solde avec le SDK
-    const balance = await account.getBalance();
-
-    // Conversion du solde si nécessaire (selon les besoins)
-    const balanceInAI3 = convertToAI3(balance);
-    document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
+    if (balance !== undefined) {
+      const balanceInAI3 = convertToAI3(Number(balance));
+      document.getElementById('balanceDisplay').textContent = `Balance: ${balanceInAI3} AI3`;
+    } else {
+      document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
+    }
   } catch (error) {
-    console.error('Erreur lors de la récupération du solde avec Auto SDK:', error);
+    console.error('Erreur lors de la récupération du solde:', error);
     document.getElementById('balanceDisplay').textContent = 'Erreur de récupération du solde';
   }
 }
@@ -62,10 +60,10 @@ function updateRocketPosition(pib, percentage, blockHeight) {
   const rocket = document.getElementById('rocket');
   rocket.style.left = percentage + '%';
 
-  // Ajustez la largeur de l'arc-en-ciel pour qu'il suive la fusée
+  // Ajustez la largeur de l'arc-en-ciel pour qu'il soit légèrement en avance par rapport à la fusée
   const rainbow = document.getElementById('rainbow');
-  rainbow.style.left = '0';
-  rainbow.style.width = percentage + '%';
+  rainbow.style.left = '0'; // Assurez-vous que l'arc-en-ciel commence au début du chemin
+  rainbow.style.width = (parseFloat(percentage) + 1) + '%'; // Ajout d'un léger décalage de 1%
 
   const pibValue = document.getElementById('pibValue');
   pibValue.innerHTML = `${pib} PB out of 600 PB &nbsp;&nbsp;&nbsp; <span class="percentage">${percentage}%</span>`;
@@ -74,7 +72,7 @@ function updateRocketPosition(pib, percentage, blockHeight) {
   blockHeightDisplay.textContent = `Processed Blocks: ${blockHeight}`;
 }
 
-// Fonction de réinitialisation de la fusée et des éléments
+// Reset function
 function resetRocket() {
   const rocket = document.getElementById('rocket');
   rocket.style.left = '0%';
@@ -90,5 +88,5 @@ function resetRocket() {
 fetchSpacePledged();
 setInterval(fetchSpacePledged, 1000);
 
-// Associer le bouton "Check balance" pour lancer la vérification du solde
+// Ajouter un écouteur d'événement pour le bouton de vérification de solde
 document.getElementById('checkBalanceButton').addEventListener('click', fetchBalance);
