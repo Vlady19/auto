@@ -11,29 +11,36 @@
     <source src="background-vid.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
+  
   <!-- Autonomys Logo -->
   <img src="autonomys-logo.png" alt="Autonomys Logo" class="logo">
+
   <!-- Rocket Progress Bar at the bottom -->
- <div class="rocket-path">
-  <div class="rainbow" id="rainbow"></div>
-  <div class="rocket" id="rocket"></div>
-</div>
+  <div class="rocket-path">
+    <div class="rainbow" id="rainbow"></div>
+    <div class="rocket" id="rocket"></div>
+  </div>
+
   <!-- Display of PiB aligned to the end of the rocket path -->
   <div class="pib-display" id="pibValue">Loading...</div>
+
   <!-- Display for Processed Blocks aligned to the left of the rocket path -->
   <div class="block-height-display" id="blockHeight">Processed Blocks: N/A</div>
+
   <!-- Reset Button below the PiB display -->
   <button onclick="resetRocket()">Reset</button>
+
   <!-- Wallet input and balance display -->
   <div class="wallet-section">
     <input type="text" id="walletAddress" placeholder="Enter your wallet address">
-    <button onclick="fetchBalance()">Check balance</button>
+    <button id="checkBalanceButton">Check balance</button>
     <p id="balanceDisplay">Balance: --</p>
   </div>
 
+  <!-- Import Auto SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@autonomys/auto-consensus@latest/dist/auto-consensus.umd.min.js"></script>
-<script src="script.js"></script>
-
+  
+  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>
